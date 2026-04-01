@@ -1,3 +1,4 @@
+const TIE = 2
 const PLAYER_WIN = 1;
 const COMPUTER_WIN = 0;
 const NUMBER_OF_ROUNDS = 5;
@@ -6,11 +7,11 @@ const NUMBER_OF_ROUNDS = 5;
 function getComputerChoice() {
   let computerChoice = Math.random();
   if (computerChoice <= (1 / 3)) {
-    return "rock";
+    return "ROCK";
   } else if (computerChoice <= 2 / 3) {
-    return "scissors";
+    return "SCISSORS";
   } else {
-    return "paper";
+    return "PAPER";
   }
 }
 
@@ -20,9 +21,18 @@ function getHumanChoice() {
 
 
 function playRound(humanChoice, computerChoice) {
-  if (humanChoice === "ROCK" && (computerChoice === "PAPER" || computerChoice === "SCISSORS")) {
+  if (humanChoice === "ROCK" && computerChoice === "SCISSORS") {
     console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
     return PLAYER_WIN;
+  } else if (humanChoice === "PAPER" && computerChoice === "ROCK") {
+    console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+    return PLAYER_WIN;
+  } else if (humanChoice === "SCISSORS" && computerChoice === "PAPER") {
+    console.log(`You win! ${humanChoice} beats ${computerChoice}.`);
+    return PLAYER_WIN;
+  } else if (humanChoice === computerChoice) {
+    console.log(`Tie! Both picked ${humanChoice}. Replaying round.`);
+    return TIE;
   } else {
     console.log(`You lose! ${computerChoice} beats ${humanChoice}.`);
     return COMPUTER_WIN;
@@ -39,7 +49,10 @@ function playGame() {
     let gameResult = playRound(humanChoice, computerChoice);
     if (gameResult === PLAYER_WIN) {
       humanScore += 1;
-    } else {
+    } else if (gameResult === TIE) {
+      i -= 1
+    }
+    else {
       computerScore += 1;
     }
   }
